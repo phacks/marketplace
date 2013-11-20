@@ -26,6 +26,7 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 
 	public void receiveMsg (String msg) {
 		System.out.println(msg);
+		System.out.println("CACA");
 	}
 
 	public static void main(String args[]) throws NotBoundException, IOException {
