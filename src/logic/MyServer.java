@@ -26,7 +26,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 	}
 
 	public void registerClient(String client) throws RemoteException {
-		System.out.println("On entre dans la methode RegisterClient");
 		if (clientTable.contains(client)) {
 			throw new RemoteException("client already registered");
 		}
@@ -34,11 +33,12 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		System.out.println("Client " + client + " registered");
 	}
 
-	public void unregisterClient(ClientInterface client) throws RemoteException {
+	public void unregisterClient(String client) throws RemoteException {
 		if (!clientTable.contains(client)) {
 			throw new RemoteException("client not registered");
 		}
 		clientTable.remove(client);
+		System.out.println("Client " + client + " unregistered");
 	}
 
 	/*public void broadcastMsg(String msg) throws RemoteException {

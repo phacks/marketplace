@@ -30,4 +30,13 @@ public class MainPanel extends JPanel {
 		this.repaint();
 		this.revalidate();
 	}
+
+	public void setMarketplace(MyClient client, String name) {
+		MarketplacePanel marketplacePanel = new MarketplacePanel(this, client,name);
+		this.removeAll();
+		this.add(marketplacePanel);
+		this.repaint();
+		this.revalidate();
+		
+	}
 }
