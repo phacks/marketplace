@@ -7,11 +7,14 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @SuppressWarnings("serial")
 public class MyServer extends UnicastRemoteObject implements ServerInterface {
 	private List<String> clientTable = new ArrayList<String>();
+	private List<Item> itemToSellTable = new ArrayList<Item>();
+	private ClientInterface client;
 
 	public MyServer() throws IOException {
 		super();
@@ -41,15 +44,53 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		System.out.println("Client " + client + " unregistered");
 	}
 
-	/*public void broadcastMsg(String msg) throws RemoteException {
-		for (String client : clientTable) {
-			try {
-				client.receiveMsg(msg);
-			} catch(RemoteException re) {
-				re.printStackTrace();
-			} 
+	public ClientInterface getClient() {
+		return client;
+	}
+
+	public void setClient(ClientInterface client) {
+		this.client = client;
+	}
+
+	public void removeItemToSell(Item inputItem){
+		int id = inputItem.getId();
+		Iterator<Item> it = getItemToSellTable().iterator();
+		Item item;
+		while (it.hasNext()){
+			item = it.next();
+			if (item.getId()==id){
+				System.out.println("dans le serveur " + item.getonSale());
+				getItemToSellTable().remove(item);
+				break;
+			}	
 		}
-	}*/
+	}
+	
+	public void getItemsToSell() {
+
+		Iterator<Item> it = getItemToSellTable().iterator();
+		Item item;
+		if(getItemToSellTable().size() == 0){
+			System.out.println("Liste vide");
+		}
+		while (it.hasNext()){
+			item = it.next();
+			System.out.println(item.getName() + " " + item.getDescription() + " " + item.getId());
+		}
+	}
+	
+	public List<Item> getItemToSellTable() {
+		return itemToSellTable;
+	}
+	
+	public void addItemToSell(Item item){
+		getItemToSellTable().add(item);
+		System.out.println(this.itemToSellTable.size());
+	}
+	
+	public void callBack(MyClient client){
+		
+	}
 
 	public static void main(String[] args) throws IOException {
 		try {

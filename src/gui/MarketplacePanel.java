@@ -24,6 +24,7 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 	MyClient client;
 	String name;
 	MyItemsPanel itemsPanel;
+	AvailableItemsPanel availableItemsPanel;
 
 	public MarketplacePanel (MainPanel mainPanel, MyClient client, String name){
 		this.mainPanel = mainPanel;
@@ -31,6 +32,7 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 		this.name = name;
 
 		itemsPanel = new MyItemsPanel(mainPanel, client);
+		availableItemsPanel = new AvailableItemsPanel(mainPanel,client);
 		this.setPreferredSize(new Dimension(mainPanel.getWidth() - 200, mainPanel.getHeight() - 100));
 
 		this.setLayout(new BorderLayout());
@@ -48,10 +50,17 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 		menu.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if(menu.getSelectedIndex() == 1){
+					System.out.println("stateChanged sur mes Items");
 					itemsPanel.removeAll();
 					itemsPanel.update();
 					itemsPanel.repaint();
 					itemsPanel.revalidate();
+					System.out.println("revalidate ok");
+				} else if (menu.getSelectedIndex() == 0){
+					availableItemsPanel.removeAll();
+					availableItemsPanel.update();
+					availableItemsPanel.repaint();
+					availableItemsPanel.revalidate();
 				}
 			}
 		});
@@ -60,7 +69,7 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 
 
 	private void setMenu() {
-		menu.addTab("Marketplace", new AvailableItemsPanel());
+		menu.addTab("Marketplace", availableItemsPanel);
 		menu.addTab("My Items", itemsPanel);
 		menu.addTab("Add Items", new AddItemsPanel(mainPanel,client));
 	}

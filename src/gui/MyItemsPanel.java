@@ -28,6 +28,7 @@ public class MyItemsPanel extends JPanel{
 		Iterator<Item> it = client.getMyItemTable().iterator();
 		while (it.hasNext()) {
 			item = it.next();
+			System.out.println(item.getonSale());
 			this.add(new ItemPanel(mainPanel, item,client,this));
 		}
 	}

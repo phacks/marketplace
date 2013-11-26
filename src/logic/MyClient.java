@@ -16,7 +16,7 @@ import java.util.List;
 public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	private String name;
 	private ServerInterface server;
-	private List<Item> myItemTable = new ArrayList<Item>();
+	private  List<Item> myItemTable = new ArrayList<Item>();
 
 	public MyClient() throws RemoteException {
 		super();
@@ -52,17 +52,18 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 		}
 	}
 
-	public void getMyItems() {
+/*	public void getMyItems() {
 
 		Iterator<Item> it = getMyItemTable().iterator();
 		Item item;
 		while (it.hasNext()){
 			item = it.next();
 		}
-	}
+	}*/
 
 	public void addItem(Item item){
 		getMyItemTable().add(item);
+		System.out.println(myItemTable.get(0));
 	}
 
 	public void removeItem(Item item){
@@ -78,6 +79,21 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 
 	public List<Item> getMyItemTable() {
 		return myItemTable;
+	}
+	
+	public void removeItemMarket(Item inputItem, int inputId){
+		int id = inputItem.getId();
+		Iterator<Item> it = getMyItemTable().iterator();
+		Item item;
+		while (it.hasNext()){
+			item = it.next();
+			if (item.getId()==id){
+				System.out.println("dans le serveur " + item.getonSale());
+				item.setonSale(false);
+				break;
+			}
+				
+		}
 	}
 
 	public void setMyItemTable(List<Item> myItemTable) {

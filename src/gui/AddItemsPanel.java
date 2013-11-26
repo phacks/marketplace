@@ -48,7 +48,7 @@ public class AddItemsPanel extends JPanel implements ActionListener {
 		if (e.getSource() == addItemButton){
 			String nameI = nameItem.getText();
 			String descriptionI = descriptionItem.getText();
-			Item item = new Item(nameI,client.getName(),descriptionI);
+			Item item = new Item(nameI,client.getName(),descriptionI,"",false);
 			client.addItem(item);
 			JOptionPane.showMessageDialog(null,"Item " + nameI + " " + descriptionI + " added");
 		}
