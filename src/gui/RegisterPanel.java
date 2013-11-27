@@ -46,6 +46,7 @@ public class RegisterPanel extends JPanel implements ActionListener{
 			inputName = name.getText();
 			client.setName(inputName);
 			try {
+				client.getBank().registerClient(client);
 				client.getServer().registerClient(client);
 				List<ClientInterface> clientTable = client.getServer().getClients();
 				mainPanel.setMarketplace(client,inputName);

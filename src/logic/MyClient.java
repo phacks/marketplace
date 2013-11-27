@@ -22,6 +22,7 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	private String name;
 	private ServerInterface server;
 	private  List<Item> myItemTable = new ArrayList<Item>();
+	private BankInterface bank;
 
 	public MyClient(String name) throws RemoteException {
 		super();	
@@ -48,14 +49,25 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 		System.out.println(msg);
 	}
 
-	public boolean connectTo(String inputIP, String inputPort) {
+	// Connects to the server & the bank
+	public boolean connectTo(String inputIP, String inputPortServer, String inputPortBank) {
 		try {
-			setServer((ServerInterface) Naming.lookup("rmi://" + inputIP + ":" + inputPort + "/chat"));
+			setBank((BankInterface) Naming.lookup("rmi://" + inputIP + ":" + inputPortBank + "/bank"));
+			System.out.println("Connection a la banque OK");
+			setServer((ServerInterface) Naming.lookup("rmi://" + inputIP + ":" + inputPortServer + "/chat"));
 			System.out.println("Connection au serveur OK");
 			return true;
 		} catch (MalformedURLException | RemoteException | NotBoundException e ) {
 			return false;
 		}
+	}
+
+	private void setBank(BankInterface bank) throws RemoteException {
+		this.bank = bank;
+	}
+	
+	public BankInterface getBank() throws RemoteException {
+		return bank;
 	}
 
 	public void addItem(Item item){

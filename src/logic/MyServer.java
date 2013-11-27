@@ -17,6 +17,8 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 	private List<Item> itemToSellTable = new ArrayList<Item>();
 	private ClientInterface clientInterface;
 	private MyClient client;
+	private boolean connectedToBank = false;
+	private BankInterface bank;
 
 	public MyServer() throws IOException, RemoteException {
 		super();
@@ -37,7 +39,25 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			throw new RemoteException("client already registered");
 		}
 		clientTable.add(client);
+<<<<<<< HEAD
+=======
+
+		if(!connectedToBank){
+			setBank(client.getBank());
+			connectedToBank = true;
+		}
+		
+>>>>>>> f85bb9089d34517c6bb64ae7c63981b944293274
 		System.out.println("Client " + client.getName() + " registered");
+		System.out.println(getBank().checkAccount(client));
+	}
+
+	private BankInterface getBank() {
+		return bank;
+	}
+
+	public void setBank(BankInterface bank) {
+		this.bank = bank;
 	}
 
 	public void unregisterClient(ClientInterface client) throws RemoteException {
