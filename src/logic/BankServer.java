@@ -3,12 +3,10 @@ package logic;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -25,13 +23,11 @@ public class BankServer extends UnicastRemoteObject implements BankInterface {
 		String[] command = new String[]{"rmiregistry","14001"};
 		Runtime.getRuntime().exec(command);
 		Naming.rebind("rmi://localhost:14000/bank", this);
-		// setClient((ClientInterface) client);
 	}
 
 	public List<ClientInterface> getClients() {
 		return(clientTable);
 	}
-
 
 	public void registerClient(ClientInterface client) throws RemoteException {
 		if (clientTable.contains(client)) {
@@ -51,7 +47,6 @@ public class BankServer extends UnicastRemoteObject implements BankInterface {
 		clientTable.remove(client);
 	}
 
-
 	public static void main(String[] args) throws IOException {
 		try {
 			new BankServer();
@@ -65,7 +60,6 @@ public class BankServer extends UnicastRemoteObject implements BankInterface {
 		}
 	}
 
-	@Override
 	public void creditAccount(ClientInterface client, int sum) throws RemoteException {
 		if (!clientTable.contains(client))
 		{
@@ -74,7 +68,6 @@ public class BankServer extends UnicastRemoteObject implements BankInterface {
 		accountsTable.set(clientTable.indexOf(client), accountsTable.get(clientTable.indexOf(client)) + sum);
 	}
 
-	@Override
 	public void debitAccount(ClientInterface client, int sum) throws RemoteException {
 		if (!clientTable.contains(client))
 		{
@@ -83,10 +76,8 @@ public class BankServer extends UnicastRemoteObject implements BankInterface {
 		accountsTable.set(clientTable.indexOf(client), accountsTable.get(clientTable.indexOf(client)) - sum);
 	}
 
-	@Override
 	public int checkAccount(ClientInterface client) {
 		return accountsTable.get(clientTable.indexOf(client));
 	}
-
 
 }

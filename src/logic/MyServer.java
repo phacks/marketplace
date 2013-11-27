@@ -3,7 +3,6 @@ package logic;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
@@ -26,28 +25,21 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		String[] command = new String[]{"rmiregistry","14000"};
 		Runtime.getRuntime().exec(command);
 		Naming.rebind("rmi://localhost:14000/chat", this);
-		// setClient((ClientInterface) client);
 	}
 
 	public List<ClientInterface> getClients() {
 		return(clientTable);
 	}
 
-
 	public void registerClient(ClientInterface client) throws RemoteException {
 		if (clientTable.contains(client)) {
 			throw new RemoteException("client already registered");
 		}
 		clientTable.add(client);
-<<<<<<< HEAD
-=======
-
 		if(!connectedToBank){
 			setBank(client.getBank());
 			connectedToBank = true;
 		}
-		
->>>>>>> f85bb9089d34517c6bb64ae7c63981b944293274
 		System.out.println("Client " + client.getName() + " registered");
 		System.out.println(getBank().checkAccount(client));
 	}
@@ -61,7 +53,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 	}
 
 	public void unregisterClient(ClientInterface client) throws RemoteException {
-
 		if (!clientTable.contains(client))
 		{
 			throw new RemoteException("client not registered");
@@ -85,7 +76,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		while (it.hasNext()){
 			item = it.next();
 			if (item.getId()==id){
-				System.out.println("dans le serveur " + item.getonSale());
 				getItemToSellTable().remove(item);
 				break;
 			}	
@@ -93,7 +83,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 	}
 
 	public void getItemsToSell() {
-
 		Iterator<Item> it = getItemToSellTable().iterator();
 		Item item;
 		if(getItemToSellTable().size() == 0){
@@ -114,13 +103,13 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		System.out.println(this.itemToSellTable.size());
 	}
 
-	public void callBack(String owner,Item item) throws RemoteException{
+	public void callBack(ClientInterface owner,Item item) throws RemoteException{
 		Iterator<ClientInterface> it = getClients().iterator();
 		ClientInterface clients = null;
 		while (it.hasNext()){
 			clients = it.next();
 			int id = item.getId();
-			if (clients.getName().equals(owner)){
+			if (clients.equals(owner)){
 				clients.itemSold();
 				clients.removeItemSold(item,id);
 				break;
@@ -140,6 +129,5 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			System.exit(1);
 		}
 	}
-
 
 }

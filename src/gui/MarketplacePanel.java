@@ -9,7 +9,6 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -18,6 +17,7 @@ import javax.swing.event.ChangeListener;
 import logic.ClientInterface;
 import logic.MyClient;
 
+@SuppressWarnings("serial")
 public class MarketplacePanel extends JPanel implements ActionListener {
 	private JTabbedPane menu = new JTabbedPane();
 	private MainPanel mainPanel;
@@ -40,7 +40,6 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 		this.setLayout(new BorderLayout());
 
 		southPanel.setLayout(new FlowLayout());
-		//unregisterButton.setSize(200, 100);
 
 		this.add(southPanel, BorderLayout.SOUTH);
 		southPanel.add(unregisterButton);
@@ -48,13 +47,17 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 		setMenu();
 		this.add(menu, BorderLayout.CENTER);
 		unregisterButton.addActionListener(this);
-		
+
 
 		menu.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if(menu.getSelectedIndex() == 1){
 					itemsPanel.removeAll();
-					itemsPanel.update();
+					try {
+						itemsPanel.update();
+					} catch (RemoteException e1) {
+						e1.printStackTrace();
+					}
 					itemsPanel.repaint();
 					itemsPanel.revalidate();
 				} else if (menu.getSelectedIndex() == 0){
@@ -67,15 +70,12 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 		});
 	}
 
-
-
 	private void setMenu() {
 		menu.addTab("Marketplace", availableItemsPanel);
 		menu.addTab("My Items", itemsPanel);
 		menu.addTab("Add Items", new AddItemsPanel(mainPanel,client));
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == unregisterButton){
 			try {

@@ -3,9 +3,6 @@ package gui;
 import java.awt.Color;
 import java.lang.String;
 import java.rmi.RemoteException;
-import java.util.Iterator;
-import java.util.Observable;
-import java.util.Observer;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -18,10 +15,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import logic.ClientInterface;
 import logic.Item;
 import logic.MyClient;
 
+@SuppressWarnings("serial")
 public class ItemPanel extends JPanel implements ActionListener{
 
 	public Item item;
@@ -49,7 +46,7 @@ public class ItemPanel extends JPanel implements ActionListener{
 
 	private JPanel subpanel;
 
-	public ItemPanel(MainPanel mainPanel,Item item,MyClient client,JPanel subpanel){
+	public ItemPanel(MainPanel mainPanel,Item item,MyClient client,JPanel subpanel) throws RemoteException{
 		this.mainPanel = mainPanel;
 		this.item = item;
 		this.client = client;
@@ -61,7 +58,7 @@ public class ItemPanel extends JPanel implements ActionListener{
 		descriptionItem.setFont(fontDescription);
 		nameItem.setAlignmentX(Component.CENTER_ALIGNMENT);
 		descriptionItem.setAlignmentX(Component.CENTER_ALIGNMENT);
-		owner = new JLabel("Owner : " + item.getOwner());
+		owner = new JLabel("Owner : " + item.getOwner().getName());
 		price = new JLabel(item.getPrice() + " SEK");
 
 		this.setLayout(mainLayout);
@@ -82,11 +79,11 @@ public class ItemPanel extends JPanel implements ActionListener{
 			owner.setAlignmentX(Component.CENTER_ALIGNMENT);
 			price.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-			if (client.getName().equals(item.getOwner())){
+			if (client.getName().equals(item.getOwner().getName())){
 				belowPanel.add(removeMarket);
 				removeMarket.addActionListener(this);
 				removeMarket.setAlignmentX(Component.CENTER_ALIGNMENT);
-			} else if (!(client.getName().equals(item.getOwner()))) {
+			} else if (!client.getName().equals(item.getOwner().getName())) {
 				belowPanel.add(buy);
 				buy.setAlignmentX(Component.CENTER_ALIGNMENT);
 				buy.addActionListener(this);
@@ -115,18 +112,15 @@ public class ItemPanel extends JPanel implements ActionListener{
 			sell.setEnabled(true);
 			remove.setEnabled(true);
 		}
-
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == sell){
 			String itemName = item.getName();
 			String itemDescription = item.getDescription();
-			String owner = client.getName();
 			String price = (String)JOptionPane.showInputDialog(this,"You want to sell : " + itemName + " " + itemDescription + " at the following price : ","Sell an item",JOptionPane.PLAIN_MESSAGE,null,null,"");
 			try {
 				item.setPrice(price);
-				item.setOwner(owner);
 				item.setonSale(true);
 				client.getServer().addItemToSell(item);
 				if((subpanel.getClass()).toString().equals("class gui.MyItemsPanel"))
@@ -141,17 +135,19 @@ public class ItemPanel extends JPanel implements ActionListener{
 			client.removeItem(item);
 			if ((subpanel.getClass()).toString().equals("class gui.MyItemsPanel")){
 				subpanel.removeAll();
-				((MyItemsPanel) subpanel).update();
+				try {
+					((MyItemsPanel) subpanel).update();
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				subpanel.repaint();
 				subpanel.revalidate();
 			}
-
 		} else if (e.getSource() == buy){
 			try {
-				String ownerItem = item.getOwner();
-				client.getServer().callBack(ownerItem,item);
+				client.getServer().callBack(item.getOwner(),item);
 				client.getServer().removeItemToSell(item);
-				item.setOwner(client.getName());
+				item.setOwner(client);
 				item.setonSale(false);
 				client.addItem(item);
 
@@ -178,8 +174,6 @@ public class ItemPanel extends JPanel implements ActionListener{
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			}
-
 		}
-
 	}
 }

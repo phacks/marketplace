@@ -2,16 +2,17 @@ package logic;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Item implements Serializable {
 	private String name;
-	private String owner;
+	private ClientInterface owner;
 	private String description;
 	private String price;
 	private int id;
 	private boolean onSale = false;
 	static int counter = 1;
 
-	public Item(String name,String owner, String description,String price,boolean onSale){
+	public Item(String name, ClientInterface owner, String description,String price,boolean onSale){
 		this.setName(name);
 		this.setOwner(owner);
 		this.setDescription(description);
@@ -37,11 +38,11 @@ public class Item implements Serializable {
 		this.name = name;
 	}
 
-	public String getOwner() {
+	public ClientInterface getOwner() {
 		return owner;
 	}
 	
-	public void setOwner(String owner) {
+	public void setOwner(ClientInterface owner) {
 		this.owner = owner;
 	}
 
@@ -58,8 +59,7 @@ public class Item implements Serializable {
 	}
 
 	public void setonSale(boolean onSale) {
-		this.onSale = onSale;
-		
+		this.onSale = onSale;	
 	}
 
 	public int getId() {

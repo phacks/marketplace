@@ -12,11 +12,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
-
-
-
 @SuppressWarnings("serial")
 public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	private String name;

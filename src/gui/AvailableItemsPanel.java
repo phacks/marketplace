@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Component;
 import java.rmi.RemoteException;
 import java.util.Iterator;
 
@@ -10,6 +9,7 @@ import javax.swing.JPanel;
 import logic.Item;
 import logic.MyClient;
 
+@SuppressWarnings("serial")
 public class AvailableItemsPanel extends JPanel {
 
 	BoxLayout bl = new BoxLayout(this, BoxLayout.Y_AXIS);
@@ -21,6 +21,7 @@ public class AvailableItemsPanel extends JPanel {
 		this.mainPanel = mainPanel;
 		this.client = client;
 		this.setLayout(bl);
+		this.update();
 	}
 
 	public void update() {
@@ -33,7 +34,6 @@ public class AvailableItemsPanel extends JPanel {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

@@ -36,7 +36,6 @@ public class MainPanel extends JPanel {
 		this.removeAll();
 		this.add(marketplacePanel);
 		this.repaint();
-		this.revalidate();
-		
+		this.revalidate();		
 	}
 }

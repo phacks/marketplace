@@ -17,7 +17,7 @@ import logic.ClientInterface;
 import logic.MyClient;
 
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unused" })
 public class RegisterPanel extends JPanel implements ActionListener{
 
 	private JButton registerButton = new JButton("Register");
@@ -27,7 +27,6 @@ public class RegisterPanel extends JPanel implements ActionListener{
 	BoxLayout bl = new BoxLayout(this, BoxLayout.Y_AXIS);
 	MyClient client;
 	ClientInterface clientInterface;
-	
 
 	public RegisterPanel(MainPanel mainPanel, MyClient client){
 		this.mainPanel = mainPanel;
@@ -37,8 +36,7 @@ public class RegisterPanel extends JPanel implements ActionListener{
 		this.add(registerButton);
 		registerButton.addActionListener(this);
 		name.setAlignmentX(Component.CENTER_ALIGNMENT);
-		registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+		registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);		
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -51,13 +49,9 @@ public class RegisterPanel extends JPanel implements ActionListener{
 				List<ClientInterface> clientTable = client.getServer().getClients();
 				mainPanel.setMarketplace(client,inputName);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
-
-		
-		
 	}
 
 }

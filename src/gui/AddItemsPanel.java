@@ -1,15 +1,12 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Observable;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -17,6 +14,7 @@ import javax.swing.JTextField;
 import logic.Item;
 import logic.MyClient;
 
+@SuppressWarnings("serial")
 public class AddItemsPanel extends JPanel implements ActionListener {
 
 	private MainPanel mainPanel;
@@ -27,7 +25,6 @@ public class AddItemsPanel extends JPanel implements ActionListener {
 	MyItemsPanel itemPanel;
 
 	public AddItemsPanel(MainPanel mainPanel, MyClient client){
-
 		this.client = client;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(nameItem);
@@ -43,17 +40,14 @@ public class AddItemsPanel extends JPanel implements ActionListener {
 
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addItemButton){
 			String nameI = nameItem.getText();
 			String descriptionI = descriptionItem.getText();
-			Item item = new Item(nameI,client.getName(),descriptionI,"",false);
+			Item item = new Item(nameI,client,descriptionI,"",false);
 			client.addItem(item);
 			JOptionPane.showMessageDialog(null,"Item " + nameI + " " + descriptionI + " added");
 		}
-
 	}
-
-
+	
 }
