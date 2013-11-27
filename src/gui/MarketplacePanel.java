@@ -53,12 +53,10 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 		menu.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if(menu.getSelectedIndex() == 1){
-					System.out.println("stateChanged sur mes Items");
 					itemsPanel.removeAll();
 					itemsPanel.update();
 					itemsPanel.repaint();
 					itemsPanel.revalidate();
-					System.out.println("revalidate ok");
 				} else if (menu.getSelectedIndex() == 0){
 					availableItemsPanel.removeAll();
 					availableItemsPanel.update();

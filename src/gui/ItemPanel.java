@@ -149,7 +149,7 @@ public class ItemPanel extends JPanel implements ActionListener{
 		} else if (e.getSource() == buy){
 			try {
 				String ownerItem = item.getOwner();
-				client.getServer().getOwner(ownerItem);
+				client.getServer().callBack(ownerItem,item);
 				client.getServer().removeItemToSell(item);
 				item.setOwner(client.getName());
 				item.setonSale(false);

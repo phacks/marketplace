@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 
 
 
@@ -83,7 +85,6 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 		while (it.hasNext()){
 			item = it.next();
 			if (item.getId()==id){
-				System.out.println("dans le serveur " + item.getonSale());
 				item.setonSale(false);
 				break;
 			}
@@ -93,13 +94,23 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	public void setMyItemTable(List<Item> myItemTable) {
 		this.myItemTable = myItemTable;
 	}
-	
-	public void print(){
-		System.out.println(this);
-	}
 
 	public boolean itemSold() {
+		new PopUpThread().start();
 		return true;
+	}
+	
+	public void removeItemSold(Item inputItem,int inputId){
+		int id = inputItem.getId();
+		Iterator<Item> it = getMyItemTable().iterator();
+		Item item;
+		while (it.hasNext()){
+			item = it.next();
+			if (item.getId()==id){
+				myItemTable.remove(item);
+				break;
+			}
+		}
 	}
 
 }

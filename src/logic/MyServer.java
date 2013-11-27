@@ -37,31 +37,17 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			throw new RemoteException("client already registered");
 		}
 		clientTable.add(client);
-		System.out.println(clientTable.size());
-		client.print();
-
 		System.out.println("Client " + client.getName() + " registered");
 	}
 
 	public void unregisterClient(ClientInterface client) throws RemoteException {
-		
-		/*Iterator<ClientInterface> it = getClients().iterator();
-		ClientInterface client;
-		while (it.hasNext()){
-			client = it.next();
-			if (client.getName().equals(name)){
-				clientTable.remove(client);
-				System.out.println("Client " + client.getName() + " unregistered");
-				break;
-			}	
-		}*/
-		
+
 		if (!clientTable.contains(client))
-        {
-            throw new RemoteException("client not registered");
-        }
-        clientTable.remove(client);
-        System.out.println(clientTable.size());
+		{
+			throw new RemoteException("client not registered");
+		}
+		clientTable.remove(client);
+		System.out.println(clientTable.size());
 	}
 
 	public ClientInterface getClient() {
@@ -108,24 +94,17 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		System.out.println(this.itemToSellTable.size());
 	}
 
-	public ClientInterface getOwner(String ownerItem) throws RemoteException{
+	public void callBack(String owner,Item item) throws RemoteException{
 		Iterator<ClientInterface> it = getClients().iterator();
 		ClientInterface clients = null;
 		while (it.hasNext()){
 			clients = it.next();
-			if (clients.getName().equals(ownerItem)){
-				System.out.println("Envoi d'un message a : " + clients.getName());
+			int id = item.getId();
+			if (clients.getName().equals(owner)){
+				clients.itemSold();
+				clients.removeItemSold(item,id);
 				break;
 			}	
-		}
-		return clients;
-	}
-	
-	public void callBack(ClientInterface owner){
-		try {
-			owner.itemSold();
-		} catch (RemoteException e) {
-			e.printStackTrace();
 		}
 	}
 
