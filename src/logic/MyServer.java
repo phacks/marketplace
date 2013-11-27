@@ -24,11 +24,10 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		String[] command = new String[]{"rmiregistry","14000"};
 		Runtime.getRuntime().exec(command);
 		Naming.rebind("rmi://localhost:14000/chat", this);
-		setClient((ClientInterface) client);
+		// setClient((ClientInterface) client);
 	}
 
 	public List<ClientInterface> getClients() {
-		System.out.println(clientTable);
 		return(clientTable);
 	}
 
@@ -44,7 +43,7 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		System.out.println("Client " + client.getName() + " registered");
 	}
 
-	public void unregisterClient(String name) throws RemoteException {
+	public void unregisterClient(ClientInterface client) throws RemoteException {
 		
 		/*Iterator<ClientInterface> it = getClients().iterator();
 		ClientInterface client;
@@ -56,6 +55,13 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 				break;
 			}	
 		}*/
+		
+		if (!clientTable.contains(client))
+        {
+            throw new RemoteException("client not registered");
+        }
+        clientTable.remove(client);
+        System.out.println(clientTable.size());
 	}
 
 	public ClientInterface getClient() {

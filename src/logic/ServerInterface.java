@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface ServerInterface extends Remote {
 	void registerClient(ClientInterface client) throws RemoteException;
-	public void unregisterClient(String name) throws RemoteException;
+	public void unregisterClient(ClientInterface client) throws RemoteException;
 	List<ClientInterface> getClients() throws RemoteException;
 	void addItemToSell(Item item) throws RemoteException;
 	void removeItemToSell(Item item) throws RemoteException;
