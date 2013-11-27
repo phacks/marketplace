@@ -79,11 +79,10 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == unregisterButton){
 			try {
-				client.getServer().unregisterClient(client.getName());
+				client.getServer().unregisterClient(client);
 				List<ClientInterface> clientTable = client.getServer().getClients();
 				if (!clientTable.contains(name)){
 					mainPanel.setConnection();
-					client.getServer().unregisterClient(client.getName());
 				}
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
