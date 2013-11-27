@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -47,6 +48,7 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 		setMenu();
 		this.add(menu, BorderLayout.CENTER);
 		unregisterButton.addActionListener(this);
+		
 
 		menu.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {

@@ -56,15 +56,6 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 		}
 	}
 
-	/*	public void getMyItems() {
-
-		Iterator<Item> it = getMyItemTable().iterator();
-		Item item;
-		while (it.hasNext()){
-			item = it.next();
-		}
-	}*/
-
 	public void addItem(Item item){
 		getMyItemTable().add(item);
 		System.out.println(myItemTable.get(0));
@@ -105,6 +96,10 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	
 	public void print(){
 		System.out.println(this);
+	}
+
+	public boolean itemSold() {
+		return true;
 	}
 
 }

@@ -25,7 +25,6 @@ import logic.MyClient;
 public class ItemPanel extends JPanel implements ActionListener{
 
 	public Item item;
-
 	Font fontName = new Font("Cambria", Font.BOLD,15);
 	Font fontDescription = new Font("Cambria", Font.ITALIC,12);
 	JButton remove = new JButton("Remove");

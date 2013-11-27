@@ -14,4 +14,5 @@ public interface ClientInterface extends Remote {
 	//void removeItemMarket(Item item) throws RemoteException;
 	public void setName(String name) throws RemoteException;
 	public void print() throws RemoteException;
+	boolean itemSold() throws RemoteException;
 }

@@ -102,18 +102,25 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		System.out.println(this.itemToSellTable.size());
 	}
 
-	public MyClient getOwner(String ownerItem) throws RemoteException{
+	public ClientInterface getOwner(String ownerItem) throws RemoteException{
 		Iterator<ClientInterface> it = getClients().iterator();
-		ClientInterface clients;
+		ClientInterface clients = null;
 		while (it.hasNext()){
 			clients = it.next();
 			if (clients.getName().equals(ownerItem)){
-				System.out.println("Envoi d'un message a : " + client.getName());
+				System.out.println("Envoi d'un message a : " + clients.getName());
 				break;
 			}	
 		}
-		return client;
-
+		return clients;
+	}
+	
+	public void callBack(ClientInterface owner){
+		try {
+			owner.itemSold();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) throws IOException {
