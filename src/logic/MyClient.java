@@ -12,14 +12,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+
+
+
 @SuppressWarnings("serial")
 public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	private String name;
 	private ServerInterface server;
 	private  List<Item> myItemTable = new ArrayList<Item>();
 
-	public MyClient() throws RemoteException {
-		super();
+	public MyClient(String name) throws RemoteException {
+		super();	
+		this.name = name;
 	}
 
 	public String getName() {
@@ -52,7 +56,7 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 		}
 	}
 
-/*	public void getMyItems() {
+	/*	public void getMyItems() {
 
 		Iterator<Item> it = getMyItemTable().iterator();
 		Item item;
@@ -80,7 +84,7 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	public List<Item> getMyItemTable() {
 		return myItemTable;
 	}
-	
+
 	public void removeItemMarket(Item inputItem, int inputId){
 		int id = inputItem.getId();
 		Iterator<Item> it = getMyItemTable().iterator();
@@ -92,12 +96,15 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 				item.setonSale(false);
 				break;
 			}
-				
 		}
 	}
 
 	public void setMyItemTable(List<Item> myItemTable) {
 		this.myItemTable = myItemTable;
+	}
+	
+	public void print(){
+		System.out.println(this);
 	}
 
 }

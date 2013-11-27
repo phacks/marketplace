@@ -3,6 +3,7 @@ package logic;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
@@ -12,44 +13,57 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class MyServer extends UnicastRemoteObject implements ServerInterface {
-	private List<String> clientTable = new ArrayList<String>();
+	private List<ClientInterface> clientTable = new ArrayList<ClientInterface>();
 	private List<Item> itemToSellTable = new ArrayList<Item>();
-	private ClientInterface client;
+	private ClientInterface clientInterface;
+	private MyClient client;
 
-	public MyServer() throws IOException {
+	public MyServer() throws IOException, RemoteException {
 		super();
 		LocateRegistry.createRegistry(14000);
 		String[] command = new String[]{"rmiregistry","14000"};
 		Runtime.getRuntime().exec(command);
 		Naming.rebind("rmi://localhost:14000/chat", this);
+		setClient((ClientInterface) client);
 	}
 
-	public List<String> getClients() {
+	public List<ClientInterface> getClients() {
+		System.out.println(clientTable);
 		return(clientTable);
 	}
 
-	public void registerClient(String client) throws RemoteException {
+
+	public void registerClient(ClientInterface client) throws RemoteException {
 		if (clientTable.contains(client)) {
 			throw new RemoteException("client already registered");
 		}
 		clientTable.add(client);
-		System.out.println("Client " + client + " registered");
+		System.out.println(clientTable.size());
+		client.print();
+
+		System.out.println("Client " + client.getName() + " registered");
 	}
 
-	public void unregisterClient(String client) throws RemoteException {
-		if (!clientTable.contains(client)) {
-			throw new RemoteException("client not registered");
-		}
-		clientTable.remove(client);
-		System.out.println("Client " + client + " unregistered");
+	public void unregisterClient(String name) throws RemoteException {
+		
+		/*Iterator<ClientInterface> it = getClients().iterator();
+		ClientInterface client;
+		while (it.hasNext()){
+			client = it.next();
+			if (client.getName().equals(name)){
+				clientTable.remove(client);
+				System.out.println("Client " + client.getName() + " unregistered");
+				break;
+			}	
+		}*/
 	}
 
 	public ClientInterface getClient() {
 		return client;
 	}
 
-	public void setClient(ClientInterface client) {
-		this.client = client;
+	public void setClient(ClientInterface clientInterface) {
+		this.clientInterface = clientInterface;
 	}
 
 	public void removeItemToSell(Item inputItem){
@@ -65,7 +79,7 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			}	
 		}
 	}
-	
+
 	public void getItemsToSell() {
 
 		Iterator<Item> it = getItemToSellTable().iterator();
@@ -78,18 +92,28 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			System.out.println(item.getName() + " " + item.getDescription() + " " + item.getId());
 		}
 	}
-	
+
 	public List<Item> getItemToSellTable() {
 		return itemToSellTable;
 	}
-	
+
 	public void addItemToSell(Item item){
 		getItemToSellTable().add(item);
 		System.out.println(this.itemToSellTable.size());
 	}
-	
-	public void callBack(MyClient client){
-		
+
+	public MyClient getOwner(String ownerItem) throws RemoteException{
+		Iterator<ClientInterface> it = getClients().iterator();
+		ClientInterface clients;
+		while (it.hasNext()){
+			clients = it.next();
+			if (clients.getName().equals(ownerItem)){
+				System.out.println("Envoi d'un message a : " + client.getName());
+				break;
+			}	
+		}
+		return client;
+
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -104,5 +128,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			System.exit(1);
 		}
 	}
+
 
 }

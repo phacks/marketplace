@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import logic.ClientInterface;
 import logic.Item;
 import logic.MyClient;
 
@@ -148,14 +149,13 @@ public class ItemPanel extends JPanel implements ActionListener{
 
 		} else if (e.getSource() == buy){
 			try {
-				
-				
-				//client.getServer().callBack(item.getOwner());
+				String ownerItem = item.getOwner();
+				client.getServer().getOwner(ownerItem);
 				client.getServer().removeItemToSell(item);
 				item.setOwner(client.getName());
 				item.setonSale(false);
 				client.addItem(item);
-				
+
 				if ((subpanel.getClass()).toString().equals("class gui.AvailableItemsPanel")){
 					((AvailableItemsPanel) subpanel).removeAll();
 					((AvailableItemsPanel) subpanel).update();

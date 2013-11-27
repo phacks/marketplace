@@ -42,7 +42,7 @@ public class ConnectionPanel extends JPanel implements ActionListener {
 			inputIP = IPaddress.getText();
 			inputPort = port.getText();
 			try {
-				client = new MyClient();
+				client = new MyClient("");
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			}

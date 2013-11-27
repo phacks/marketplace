@@ -4,13 +4,12 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface ServerInterface extends Remote {
-	void registerClient(String obj) throws RemoteException;
-	void unregisterClient(String obj) throws RemoteException;
-	//void broadcastMsg(String msg) throws RemoteException;
-	List<String> getClients() throws RemoteException;
-	//void addItemToSell(String s);
+	void registerClient(ClientInterface client) throws RemoteException;
+	public void unregisterClient(String name) throws RemoteException;
+	List<ClientInterface> getClients() throws RemoteException;
 	void addItemToSell(Item item) throws RemoteException;
 	void removeItemToSell(Item item) throws RemoteException;
 	List<Item> getItemToSellTable() throws RemoteException;
-	//void callBack(MyClient owner) throws RemoteException;
+	public ClientInterface getClient() throws RemoteException;
+	MyClient getOwner(String ownerItem) throws RemoteException;
 }

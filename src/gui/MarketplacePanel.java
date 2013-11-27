@@ -14,6 +14,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import logic.ClientInterface;
 import logic.MyClient;
 
 public class MarketplacePanel extends JPanel implements ActionListener {
@@ -78,10 +79,11 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == unregisterButton){
 			try {
-				client.getServer().unregisterClient(name);
-				List<String> clientTable = client.getServer().getClients();
+				client.getServer().unregisterClient(client.getName());
+				List<ClientInterface> clientTable = client.getServer().getClients();
 				if (!clientTable.contains(name)){
 					mainPanel.setConnection();
+					client.getServer().unregisterClient(client.getName());
 				}
 			} catch (RemoteException e1) {
 				e1.printStackTrace();

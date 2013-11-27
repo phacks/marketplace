@@ -1,8 +1,6 @@
 package logic;
 
 import java.io.Serializable;
-import java.util.Observable;
-import java.util.Observer;
 
 public class Item implements Serializable {
 	private String name;
