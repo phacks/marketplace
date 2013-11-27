@@ -16,22 +16,26 @@ public class ConnectionPanel extends JPanel implements ActionListener {
 	
 	private MainPanel mainPanel;
 	private JButton connectionButton = new JButton("Connection");
-	JTextField IPaddress = new JTextField("IP address");
-	JTextField port = new JTextField("Port");
+	JTextField IPaddress = new JTextField("localhost");
+	JTextField serverPort = new JTextField("14000");
+	JTextField bankPort = new JTextField("14001");
 	BoxLayout bl = new BoxLayout(this, BoxLayout.Y_AXIS);
 	String inputIP;
-	String inputPort;
+	String inputPortServer;
+	String inputPortBank;
 	MyClient client;
 
 	public ConnectionPanel(MainPanel mainPanel){
 		this.mainPanel = mainPanel;
 		this.setLayout(bl);
 		this.add(IPaddress);
-		this.add(port);
+		this.add(serverPort);
+		this.add(bankPort);
 		this.add(connectionButton);
 		connectionButton.addActionListener(this);
 		IPaddress.setAlignmentX(Component.CENTER_ALIGNMENT);
-		port.setAlignmentX(Component.CENTER_ALIGNMENT);
+		serverPort.setAlignmentX(Component.CENTER_ALIGNMENT);
+		bankPort.setAlignmentX(Component.CENTER_ALIGNMENT);
 		connectionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 	}
@@ -40,13 +44,14 @@ public class ConnectionPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == connectionButton){
 			inputIP = IPaddress.getText();
-			inputPort = port.getText();
+			inputPortServer = serverPort.getText();
+			inputPortBank = serverPort.getText();
 			try {
 				client = new MyClient("");
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			}
-			if (client.connectTo(inputIP, inputPort)){
+			if (client.connectTo(inputIP, inputPortServer, inputPortBank)){
 				mainPanel.setRegister(client);
 			} else {
 				mainPanel.setConnection();

@@ -8,6 +8,7 @@ public interface ClientInterface extends Remote {
 	void receiveMsg (String msg) throws RemoteException;
 	String getName() throws RemoteException;
 	public ServerInterface getServer() throws RemoteException;
+	public BankInterface getBank() throws RemoteException;
 	//void removeItem(Item item);
 	//void addItem(Item item);
 	List<Item> getMyItemTable() throws RemoteException;

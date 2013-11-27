@@ -13,4 +13,5 @@ public interface ServerInterface extends Remote {
 	public ClientInterface getClient() throws RemoteException;
 	ClientInterface getOwner(String ownerItem) throws RemoteException;
 	public void callBack(ClientInterface owner) throws RemoteException;
+	void setBank(BankInterface bank) throws RemoteException;
 }
