@@ -97,8 +97,8 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 		this.myItemTable = myItemTable;
 	}
 
-	public boolean itemSold() {
-		new PopUpThread("Item sold").start();
+	public boolean itemSold(Item item) {
+		new PopUpThread("Item " + item.getName() +  " sold at the price : " + item.getPrice()).start(); 
 		return true;
 	}
 	
