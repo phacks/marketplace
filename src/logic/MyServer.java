@@ -14,7 +14,9 @@ import java.util.List;
 public class MyServer extends UnicastRemoteObject implements ServerInterface {
 	private List<ClientInterface> clientTable = new ArrayList<ClientInterface>();
 	private List<Item> itemToSellTable = new ArrayList<Item>();
+	private List<WishInterface> wishTable = new ArrayList<WishInterface>();
 	private ClientInterface clientInterface;
+	private WishInterface wishInterface;
 	private MyClient client;
 	private boolean connectedToBank = false;
 	private BankInterface bank;
@@ -116,7 +118,26 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			}	
 		}
 	}
+	
+	public void addWish(WishInterface wish) throws RemoteException{
+		if (wishTable.contains(wish)) {
+			throw new RemoteException("You have already made this wish");
+		}
+		wishTable.add(wish);
+		System.out.println(wish.getNameItem() + " " + wish.getPriceItem() + " " + wish.getWisher());
+	}
+	
+	public void removeWish(WishInterface wish) throws RemoteException {
+		if (!wishTable.contains(wish)){
+			System.out.println("You don't have this wish");
+		}
+		wishTable.remove(wish);
+	}
 
+	public List<WishInterface> getWishTable() {
+		return wishTable;
+	}
+	
 	public static void main(String[] args) throws IOException {
 		try {
 			new MyServer();

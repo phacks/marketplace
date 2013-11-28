@@ -40,10 +40,6 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 		this.server = server;
 	}
 
-	public void receiveMsg (String msg) {
-		System.out.println(msg);
-	}
-
 	// Connects to the server & the bank
 	public boolean connectTo(String inputIP, String inputPortServer, String inputPortBank) {
 		try {
@@ -67,7 +63,6 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 
 	public void addItem(Item item){
 		getMyItemTable().add(item);
-		System.out.println(myItemTable.get(0));
 	}
 
 	public void removeItem(Item item){

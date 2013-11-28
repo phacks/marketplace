@@ -34,8 +34,8 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 		this.name = name;
 
 		itemsPanel = new MyItemsPanel(mainPanel, client);
-		availableItemsPanel = new AvailableItemsPanel(mainPanel,client);
-		this.setPreferredSize(new Dimension(mainPanel.getWidth() - 200, mainPanel.getHeight() - 100));
+		availableItemsPanel = new AvailableItemsPanel(mainPanel, client);
+		this.setPreferredSize(new Dimension(mainPanel.getWidth() - 50, mainPanel.getHeight() - 50));
 
 		this.setLayout(new BorderLayout());
 
@@ -74,6 +74,7 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 		menu.addTab("Marketplace", availableItemsPanel);
 		menu.addTab("My Items", itemsPanel);
 		menu.addTab("Add Items", new AddItemsPanel(mainPanel,client));
+		menu.addTab("Wishlist", new WishListPanel(mainPanel,client));
 	}
 
 	public void actionPerformed(ActionEvent e) {
