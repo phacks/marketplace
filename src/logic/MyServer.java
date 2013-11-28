@@ -135,13 +135,15 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		}
 		wishTable.add(wish);
 		System.out.println(wish.getNameItem() + " " + wish.getPriceItem() + " " + wish.getWisher());
+		System.out.println("WishTable : " + getWishTable());
 	}
 
 	public void removeWish(WishInterface wish) throws RemoteException {
-		if (!wishTable.contains(wish)){
+		if (!(wishTable.contains(wish))){
 			System.out.println("You don't have this wish");
 		}
 		wishTable.remove(wish);
+		System.out.println("WishTable : " + getWishTable());
 	}
 
 	public List<WishInterface> getWishTable() {
@@ -159,6 +161,12 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			System.out.println(me);
 			System.exit(1);
 		}
+	}
+
+	@Override
+	public void callBackWish(Item item) throws RemoteException {
+
+		
 	}
 
 }

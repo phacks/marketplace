@@ -16,4 +16,5 @@ public interface ServerInterface extends Remote {
 	void addWish(WishInterface wish) throws RemoteException;
 	List<WishInterface> getWishTable() throws RemoteException;
 	void removeWish(WishInterface wish) throws RemoteException;
+	void callBackWish(Item item) throws RemoteException;
 }

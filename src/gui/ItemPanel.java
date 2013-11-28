@@ -128,6 +128,7 @@ public class ItemPanel extends JPanel implements ActionListener{
 				((MyItemsPanel) subpanel).update();
 				subpanel.repaint();
 				subpanel.revalidate();
+				client.getServer().callBackWish(item);
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			}
