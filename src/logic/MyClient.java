@@ -66,10 +66,10 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	}
 
 	public void removeItem(Item item){
-		if (!getMyItemTable().contains(item)) {
-			System.out.println("You don't have this item !");
+		if (getMyItemTable().contains(item)) {
+			getMyItemTable().remove(item);
 		}
-		getMyItemTable().remove(item);
+		
 	}
 
 	public static void main(String args[]) throws NotBoundException, IOException {

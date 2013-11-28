@@ -42,8 +42,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			setBank(client.getBank());
 			connectedToBank = true;
 		}
-		System.out.println("Client " + client.getName() + " registered");
-		System.out.println(getBank().checkAccount(client));
 	}
 
 	private BankInterface getBank() {
@@ -60,7 +58,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			throw new RemoteException("client not registered");
 		}
 		clientTable.remove(client);
-		System.out.println(clientTable.size());
 	}
 
 	public ClientInterface getClient() {
@@ -88,11 +85,9 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		Iterator<Item> it = getItemToSellTable().iterator();
 		Item item;
 		if(getItemToSellTable().size() == 0){
-			System.out.println("Liste vide");
 		}
 		while (it.hasNext()){
 			item = it.next();
-			System.out.println(item.getName() + " " + item.getDescription() + " " + item.getId());
 		}
 	}
 
@@ -102,7 +97,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 
 	public void addItemToSell(Item item){
 		getItemToSellTable().add(item);
-		System.out.println(this.itemToSellTable.size());
 	}
 
 	public boolean callBack(ClientInterface buyer, ClientInterface owner, Item item) throws RemoteException{
@@ -134,8 +128,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			throw new RemoteException("You have already made this wish");
 		}
 		wishTable.add(wish);
-		System.out.println(wish.getNameItem() + " " + wish.getPriceItem() + " " + wish.getWisher());
-		System.out.println("WishTable : " + getWishTable());
 	}
 	
 	public void removeWish(WishInterface wish) throws RemoteException {
@@ -143,7 +135,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			System.out.println("You don't have this wish");
 		}
 		wishTable.remove(wish);
-		System.out.println("WishTable : " + getWishTable());
 	}
 
 	public List<WishInterface> getWishTable() {
