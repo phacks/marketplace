@@ -120,7 +120,7 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
                         if (clients.equals(owner)){
                                 bank.creditAccount(clients, Integer.parseInt(item.getPrice()));
                                 bank.debitAccount(buyer, Integer.parseInt(item.getPrice()));
-                                clients.itemSold();
+                                clients.itemSold(item);
                                 clients.removeItemSold(item,id);
                                 return true;
                         }

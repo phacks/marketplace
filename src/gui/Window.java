@@ -14,6 +14,7 @@ public class Window extends JFrame {
 		this.mainPanel = new MainPanel(this.getWidth(), this.getHeight());
 		this.setContentPane(mainPanel);
 		this.setVisible(true);
-	}
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}	
 
 }

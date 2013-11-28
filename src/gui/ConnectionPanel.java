@@ -14,7 +14,7 @@ import logic.MyClient;
 
 @SuppressWarnings("serial")
 public class ConnectionPanel extends JPanel implements ActionListener {
-
+	
 	private MainPanel mainPanel;
 	private JButton connectionButton = new JButton("Connection");
 	JTextField IPaddress = new JTextField("localhost");
@@ -39,7 +39,7 @@ public class ConnectionPanel extends JPanel implements ActionListener {
 		bankPort.setAlignmentX(Component.CENTER_ALIGNMENT);
 		connectionButton.setAlignmentX(Component.CENTER_ALIGNMENT);		
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == connectionButton){
 			inputIP = IPaddress.getText();
@@ -56,6 +56,7 @@ public class ConnectionPanel extends JPanel implements ActionListener {
 				mainPanel.setConnection();
 			}
 		}
+		
 	}
 
 }
