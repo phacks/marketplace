@@ -118,5 +118,9 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	public void tooExpensive() {
 		new PopUpThread("This item is too expensive").start();
 	}
+	
+	public void wishAvailable(Item item){
+		new PopUpThread("Item " + item.getName() + " available at the following price " + item.getPrice()).start();
+	}
 
 }
