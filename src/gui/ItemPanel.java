@@ -145,17 +145,18 @@ public class ItemPanel extends JPanel implements ActionListener{
 			}
 		} else if (e.getSource() == buy){
 			try {
-				client.getServer().callBack(item.getOwner(),item);
-				client.getServer().removeItemToSell(item);
-				item.setOwner(client);
-				item.setonSale(false);
-				client.addItem(item);
+				if (client.getServer().callBack(client, item.getOwner(),item)){
+					client.getServer().removeItemToSell(item);
+					item.setOwner(client);
+					item.setonSale(false);
+					client.addItem(item);
 
-				if ((subpanel.getClass()).toString().equals("class gui.AvailableItemsPanel")){
-					((AvailableItemsPanel) subpanel).removeAll();
-					((AvailableItemsPanel) subpanel).update();
-					((AvailableItemsPanel) subpanel).repaint();
-					((AvailableItemsPanel) subpanel).revalidate();
+					if ((subpanel.getClass()).toString().equals("class gui.AvailableItemsPanel")){
+						((AvailableItemsPanel) subpanel).removeAll();
+						((AvailableItemsPanel) subpanel).update();
+						((AvailableItemsPanel) subpanel).repaint();
+						((AvailableItemsPanel) subpanel).revalidate();
+					}
 				}
 			} catch (RemoteException e1) {
 				e1.printStackTrace();

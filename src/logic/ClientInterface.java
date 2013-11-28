@@ -13,4 +13,5 @@ public interface ClientInterface extends Remote {
 	public void setName(String name) throws RemoteException;
 	boolean itemSold() throws RemoteException;
 	void removeItemSold(Item item,int id) throws RemoteException;
+	void tooExpensive() throws RemoteException;
 }

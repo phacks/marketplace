@@ -98,7 +98,7 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	}
 
 	public boolean itemSold() {
-		new PopUpThread().start();
+		new PopUpThread("Item sold").start();
 		return true;
 	}
 	
@@ -113,6 +113,10 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 				break;
 			}
 		}
+	}
+
+	public void tooExpensive() {
+		new PopUpThread("This item is too expensive").start();
 	}
 
 }

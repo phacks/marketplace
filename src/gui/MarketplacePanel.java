@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -23,12 +24,13 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 	private MainPanel mainPanel;
 	private JButton unregisterButton = new JButton("Unregister");
 	private JPanel southPanel = new JPanel();
-	MyClient client;
+	private MyClient client;
 	String name;
 	MyItemsPanel itemsPanel;
 	AvailableItemsPanel availableItemsPanel;
+	private JLabel account = new JLabel("");
 
-	public MarketplacePanel (MainPanel mainPanel, MyClient client, String name){
+	public MarketplacePanel (MainPanel mainPanel, final MyClient client, String name) throws RemoteException{
 		this.mainPanel = mainPanel;
 		this.client = client;
 		this.name = name;
@@ -43,6 +45,9 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 
 		this.add(southPanel, BorderLayout.SOUTH);
 		southPanel.add(unregisterButton);
+		
+		account.setText(Integer.toString(client.getBank().checkAccount(client)) + " SEK");
+		southPanel.add(account);
 
 		setMenu();
 		this.add(menu, BorderLayout.CENTER);
@@ -60,11 +65,30 @@ public class MarketplacePanel extends JPanel implements ActionListener {
 					}
 					itemsPanel.repaint();
 					itemsPanel.revalidate();
+					try {
+						account.setText(Integer.toString(client.getBank().checkAccount(client)) + " SEK");
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} else if (menu.getSelectedIndex() == 0){
 					availableItemsPanel.removeAll();
 					availableItemsPanel.update();
 					availableItemsPanel.repaint();
 					availableItemsPanel.revalidate();
+					try {
+						account.setText(Integer.toString(client.getBank().checkAccount(client)) + " SEK");
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} else if (menu.getSelectedIndex() == 2){
+					try {
+						account.setText(Integer.toString(client.getBank().checkAccount(client)) + " SEK");
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});

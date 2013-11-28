@@ -11,7 +11,7 @@ public interface ServerInterface extends Remote {
 	void removeItemToSell(Item item) throws RemoteException;
 	List<Item> getItemToSellTable() throws RemoteException;
 	public ClientInterface getClient() throws RemoteException;
-	public void callBack(ClientInterface owner, Item item) throws RemoteException;
+	public boolean callBack(ClientInterface buyer, ClientInterface owner, Item item) throws RemoteException;
 	void setBank(BankInterface bank) throws RemoteException;
 	void addWish(WishInterface wish) throws RemoteException;
 	List<WishInterface> getWishTable() throws RemoteException;

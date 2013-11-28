@@ -105,20 +105,30 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		System.out.println(this.itemToSellTable.size());
 	}
 
-	public void callBack(ClientInterface owner,Item item) throws RemoteException{
-		Iterator<ClientInterface> it = getClients().iterator();
-		ClientInterface clients = null;
-		while (it.hasNext()){
-			clients = it.next();
-			int id = item.getId();
-			if (clients.equals(owner)){
-				clients.itemSold();
-				clients.removeItemSold(item,id);
-				break;
+	public boolean callBack(ClientInterface buyer, ClientInterface owner, Item item) throws RemoteException{
+
+		if(bank.checkAccount(buyer) < Integer.parseInt(item.getPrice())){
+			buyer.tooExpensive();
+			return false;
+		}
+		else{
+			Iterator<ClientInterface> it = getClients().iterator();
+			ClientInterface clients = null;
+			while (it.hasNext()){
+				clients = it.next();
+				int id = item.getId();
+				if (clients.equals(owner)){
+					bank.creditAccount(clients, Integer.parseInt(item.getPrice()));
+					bank.debitAccount(buyer, Integer.parseInt(item.getPrice()));
+					clients.itemSold();
+					clients.removeItemSold(item,id);
+					return true;
+				}
 			}	
 		}
+		return false;
 	}
-	
+
 	public void addWish(WishInterface wish) throws RemoteException{
 		if (wishTable.contains(wish)) {
 			throw new RemoteException("You have already made this wish");
@@ -126,7 +136,7 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		wishTable.add(wish);
 		System.out.println(wish.getNameItem() + " " + wish.getPriceItem() + " " + wish.getWisher());
 	}
-	
+
 	public void removeWish(WishInterface wish) throws RemoteException {
 		if (!wishTable.contains(wish)){
 			System.out.println("You don't have this wish");
@@ -137,7 +147,7 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 	public List<WishInterface> getWishTable() {
 		return wishTable;
 	}
-	
+
 	public static void main(String[] args) throws IOException {
 		try {
 			new MyServer();

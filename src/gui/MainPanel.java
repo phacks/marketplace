@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.rmi.RemoteException;
 
 import javax.swing.JPanel;
 
@@ -31,7 +32,7 @@ public class MainPanel extends JPanel {
 		this.revalidate();
 	}
 
-	public void setMarketplace(MyClient client, String name) {
+	public void setMarketplace(MyClient client, String name) throws RemoteException {
 		MarketplacePanel marketplacePanel = new MarketplacePanel(this, client,name);
 		this.removeAll();
 		this.add(marketplacePanel);
