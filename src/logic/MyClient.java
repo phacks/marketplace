@@ -44,7 +44,7 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	public boolean connectTo(String inputIP, String inputPortServer, String inputPortBank) {
 		try {
 			setBank((BankInterface) Naming.lookup("rmi://" + inputIP + ":" + inputPortBank + "/bank"));
-			System.out.println("Connection a la banque OK");
+			//System.out.println("Connection a la banque OK");
 			setServer((ServerInterface) Naming.lookup("rmi://" + inputIP + ":" + inputPortServer + "/chat"));
 			System.out.println("Connection au serveur OK");
 			return true;
@@ -66,10 +66,10 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	}
 
 	public void removeItem(Item item){
-		if (!getMyItemTable().contains(item)) {
-			System.out.println("You don't have this item !");
+		if (getMyItemTable().contains(item)) {
+			getMyItemTable().remove(item);
 		}
-		getMyItemTable().remove(item);
+		
 	}
 
 	public static void main(String args[]) throws NotBoundException, IOException {

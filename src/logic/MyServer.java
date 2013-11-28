@@ -1,5 +1,7 @@
 package logic;
 
+import gui.ServerWindow;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -9,6 +11,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 @SuppressWarnings("serial")
 public class MyServer extends UnicastRemoteObject implements ServerInterface {
@@ -20,13 +24,17 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 	private MyClient client;
 	private boolean connectedToBank = false;
 	private BankInterface bank;
+	private String port;
+	
+	
 
-	public MyServer() throws IOException, RemoteException {
+	public MyServer(String inputPort) throws IOException, RemoteException {
 		super();
-		LocateRegistry.createRegistry(14000);
-		String[] command = new String[]{"rmiregistry","14000"};
-		Runtime.getRuntime().exec(command);
-		Naming.rebind("rmi://localhost:14000/chat", this);
+		setPort(inputPort);
+		LocateRegistry.createRegistry(Integer.parseInt(port));
+		//String[] command = new String[]{"rmiregistry",port};
+		//Runtime.getRuntime().exec(command);
+		Naming.rebind("rmi://localhost:"+port+"/server", this);
 	}
 
 	public List<ClientInterface> getClients() {
@@ -42,8 +50,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			setBank(client.getBank());
 			connectedToBank = true;
 		}
-		System.out.println("Client " + client.getName() + " registered");
-		System.out.println(getBank().checkAccount(client));
 	}
 
 	private BankInterface getBank() {
@@ -60,7 +66,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			throw new RemoteException("client not registered");
 		}
 		clientTable.remove(client);
-		System.out.println(clientTable.size());
 	}
 
 	public ClientInterface getClient() {
@@ -88,11 +93,9 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 		Iterator<Item> it = getItemToSellTable().iterator();
 		Item item;
 		if(getItemToSellTable().size() == 0){
-			System.out.println("Liste vide");
 		}
 		while (it.hasNext()){
 			item = it.next();
-			System.out.println(item.getName() + " " + item.getDescription() + " " + item.getId());
 		}
 	}
 
@@ -102,7 +105,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 
 	public void addItemToSell(Item item){
 		getItemToSellTable().add(item);
-		System.out.println(this.itemToSellTable.size());
 	}
 
 	public boolean callBack(ClientInterface buyer, ClientInterface owner, Item item) throws RemoteException{
@@ -134,8 +136,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			throw new RemoteException("You have already made this wish");
 		}
 		wishTable.add(wish);
-		System.out.println(wish.getNameItem() + " " + wish.getPriceItem() + " " + wish.getWisher());
-		System.out.println("WishTable : " + getWishTable());
 	}
 	
 	public void removeWish(WishInterface wish) throws RemoteException {
@@ -143,7 +143,6 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 			System.out.println("You don't have this wish");
 		}
 		wishTable.remove(wish);
-		System.out.println("WishTable : " + getWishTable());
 	}
 
 	public List<WishInterface> getWishTable() {
@@ -152,8 +151,10 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 	
 	public static void main(String[] args) throws IOException {
 		try {
-			new MyServer();
+			String inputValue = JOptionPane.showInputDialog("Please input a port value");
+			new MyServer(inputValue);
 			System.out.println("creation d'un server ok");
+			new ServerWindow(400, 400, inputValue, "Server");
 		} catch (RemoteException re) {
 			System.out.println(re);
 			System.exit(1);
@@ -173,6 +174,14 @@ public class MyServer extends UnicastRemoteObject implements ServerInterface {
 				wish.getWisher().wishAvailable(item);			
 			}	
 		}	
+	}
+
+	public String getPort() {
+		return port;
+	}
+
+	public void setPort(String port) {
+		this.port = port;
 	}
 
 }
