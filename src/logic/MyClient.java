@@ -44,7 +44,7 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 	public boolean connectTo(String inputIP, String inputPortServer, String inputPortBank) {
 		try {
 			setBank((BankInterface) Naming.lookup("rmi://" + inputIP + ":" + inputPortBank + "/bank"));
-			System.out.println("Connection a la banque OK");
+			//System.out.println("Connection a la banque OK");
 			setServer((ServerInterface) Naming.lookup("rmi://" + inputIP + ":" + inputPortServer + "/chat"));
 			System.out.println("Connection au serveur OK");
 			return true;

@@ -1,5 +1,7 @@
 package logic;
 
+import gui.ServerWindow;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -9,6 +11,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 @SuppressWarnings("serial")
 public class BankServer extends UnicastRemoteObject implements BankInterface {
 	private List<ClientInterface> clientTable = new ArrayList<ClientInterface>();
@@ -16,13 +20,13 @@ public class BankServer extends UnicastRemoteObject implements BankInterface {
 	private ClientInterface clientInterface;
 	private MyClient client;
 
-	public BankServer() throws IOException, RemoteException {
+	public BankServer(String port, String serverValue) throws IOException, RemoteException {
 		super();
 		System.out.println("Bank console");
-		LocateRegistry.createRegistry(14001);
-		String[] command = new String[]{"rmiregistry","14001"};
-		Runtime.getRuntime().exec(command);
-		Naming.rebind("rmi://localhost:14000/bank", this);
+		LocateRegistry.createRegistry(Integer.parseInt(port));
+		//String[] command = new String[]{"rmiregistry",port};
+		//Runtime.getRuntime().exec(command);
+		Naming.rebind("rmi://localhost:" + serverValue + "/bank", this);
 	}
 
 	public List<ClientInterface> getClients() {
@@ -49,8 +53,11 @@ public class BankServer extends UnicastRemoteObject implements BankInterface {
 
 	public static void main(String[] args) throws IOException {
 		try {
-			new BankServer();
-			System.out.println("creation de la banque ok");
+			String portValue = JOptionPane.showInputDialog("Please input a port value");
+			String serverValue = JOptionPane.showInputDialog("Please input the Server port value");
+			new BankServer(portValue, serverValue);
+			System.out.println("creation of the bank ok");
+			new ServerWindow(400, 400, portValue, "Bank Server");
 		} catch (RemoteException re) {
 			System.out.println(re);
 			System.exit(1);
