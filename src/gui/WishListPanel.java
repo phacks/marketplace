@@ -78,13 +78,13 @@ public class WishListPanel extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(null,"You wish " + nameI + " at the following price : " + priceI + " SEK");
 			try {
 				Iterator<WishInterface> it = client.getServer().getWishTable().iterator();
-				listWishPanel.removeAll();
 				listWishPanel.repaint();
 				listWishPanel.revalidate();
 				while (it.hasNext()) {
 					wishInterface = it.next();
 					if (wish.getWisher().getName().equals(client.getName())) {
-						this.add(new WishPanel(mainPanel, wish,client,listWishPanel));					
+						this.add(new WishPanel(mainPanel, wish,client,listWishPanel));
+						break;
 					}
 				}
 			} catch (RemoteException r) {
