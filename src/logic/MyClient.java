@@ -45,7 +45,7 @@ public class MyClient extends UnicastRemoteObject implements ClientInterface {
 		try {
 			setBank((BankInterface) Naming.lookup("rmi://" + inputIP + ":" + inputPortBank + "/bank"));
 			//System.out.println("Connection a la banque OK");
-			setServer((ServerInterface) Naming.lookup("rmi://" + inputIP + ":" + inputPortServer + "/chat"));
+			setServer((ServerInterface) Naming.lookup("rmi://" + inputIP + ":" + inputPortServer + "/server"));
 			System.out.println("Connection au serveur OK");
 			return true;
 		} catch (MalformedURLException | RemoteException | NotBoundException e ) {
